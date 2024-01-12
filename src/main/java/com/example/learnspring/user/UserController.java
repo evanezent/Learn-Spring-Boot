@@ -31,11 +31,6 @@ public class UserController {
         return userRepository.findById(id).get();
     }
 
-    @PostMapping
-    public User createUser(@RequestBody User user) {
-        return userRepository.save(user);
-    }
-
     @PutMapping("/{id}")
     public User updateUser(@PathVariable Long id, @RequestBody User user) {
         User existingUser = userRepository.findById(id).get();

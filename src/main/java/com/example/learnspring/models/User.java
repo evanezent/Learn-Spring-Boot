@@ -21,6 +21,14 @@ public class User {
     @Column(name = "image")
     private String image;
 
+    public User() { }
+
+    public User(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
+
     //getters and setters
 
     public Long getId() {
