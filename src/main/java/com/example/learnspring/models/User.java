@@ -1,4 +1,4 @@
-package com.example.learnspring.user;
+package com.example.learnspring.models;
 
 import jakarta.persistence.*;
 
@@ -14,6 +14,9 @@ public class User {
 
     @Column(name = "email")
     private String email;
+
+    @Column(name = "password")
+    private String password;
 
     @Column(name = "image")
     private String image;
@@ -42,6 +45,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void setImage(String image) {
