@@ -1,11 +1,15 @@
 package com.example.learnspring.user;
 
 
+import com.example.learnspring.dto.response.ErrorResponse;
 import com.example.learnspring.models.User;
 import com.example.learnspring.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -20,23 +24,40 @@ public class UserController {
     private UserRepository userRepository;
 
     @GetMapping
-    public List<User> getAllUsers() {
-
-        System.out.print("asdasd");
-        return userRepository.findAll();
+    public ResponseEntity getAllUsers() {
+         try {
+             List<User> res = userRepository.findAll();
+             return ResponseEntity.ok().body(res);
+         }catch (Exception e){
+             ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
+             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+         }
     }
 
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable Long id) {
-        return userRepository.findById(id).get();
+    public ResponseEntity getUserById(@PathVariable Long id) {
+
+        try {
+            User res = userRepository.findById(id).get();
+            return ResponseEntity.ok().body(res);
+        }catch (Exception e){
+            ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        }
+
     }
 
     @PutMapping("/{id}")
-    public User updateUser(@PathVariable Long id, @RequestBody User user) {
-        User existingUser = userRepository.findById(id).get();
-        existingUser.setName(user.getName());
-        existingUser.setEmail(user.getEmail());
-        return userRepository.save(existingUser);
+    public ResponseEntity updateUser(@PathVariable Long id, @RequestBody User user) {
+        try {
+            User res = userRepository.findById(id).get();
+
+            return ResponseEntity.ok().body(res);
+        }catch (Exception e){
+            ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        }
+
     }
 
     @DeleteMapping("/{id}")
